@@ -47,10 +47,10 @@ export default async function Home() {
   `);
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <section>
+      <section className="flex justify-center flow-col">
         <h1>Question:</h1>
-        <Carousel className="-ml-1">
-          <CarouselContent className="w-[500px]">
+        <Carousel className="-ml-1 w-1/2">
+          <CarouselContent>
             {[...(data ?? [])].reverse()?.map((q) => (
               <CarouselItem key={q.id}>
                 <Card>
