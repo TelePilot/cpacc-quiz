@@ -23,7 +23,7 @@ export async function newQuestion(v: z.infer<typeof formSchema>) {
     const res = await supabase.from("Questions").insert({
       question: v.Question,
       answers: [v["Answer 1"], v["Answer 2"], v["Answer 3"], v["Answer 4"]],
-      correctAnswers: v.items,
+      correctAnswers: v.items.map((i) => i - 1),
     });
     return res.statusText;
   } catch (error) {
