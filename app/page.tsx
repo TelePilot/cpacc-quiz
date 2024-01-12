@@ -47,7 +47,7 @@ export default async function Home() {
   `);
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <section className="flex justify-center flow-col">
+      <section className="flex items-center flex-col">
         <h1>Question:</h1>
         <Carousel className="-ml-1 w-1/2">
           <CarouselContent>
@@ -72,7 +72,7 @@ export default async function Home() {
               <Button variant="outline">Submit Question</Button>
             </div>
           </DialogTrigger>
-          <DialogContent>
+          <DialogContent className={"overflow-y-auto max-h-svh"}>
             <DialogHeader>
               <DialogTitle>Create a new Question</DialogTitle>
               <DialogDescription>

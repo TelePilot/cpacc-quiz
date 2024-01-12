@@ -88,7 +88,10 @@ export function QuestionForm() {
   }
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-8 max-h-svh"
+      >
         <FormField
           control={form.control}
           name="Question"
