@@ -1,10 +1,24 @@
 "use server";
 
 import { formSchema } from "@/components/question-form";
-import { supabase } from "./client";
 import { z } from "zod";
+import { cookies } from "next/headers";
+import { createServerClient } from "@supabase/ssr";
 
 export async function newQuestion(v: z.infer<typeof formSchema>) {
+  const cookieStore = cookies();
+
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        get(name: string) {
+          return cookieStore.get(name)?.value;
+        },
+      },
+    }
+  );
   try {
     const res = await supabase.from("Questions").insert({
       question: v.Question,

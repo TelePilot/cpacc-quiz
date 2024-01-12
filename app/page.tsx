@@ -17,14 +17,28 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { supabase } from "@/lib/client";
+import { createServerClient } from "@supabase/ssr";
 
 import dynamic from "next/dynamic";
+import { cookies } from "next/headers";
 
 const Toaster = dynamic(() => import("../components/ui/toaster"), {
   ssr: false,
 });
 export default async function Home() {
+  const cookieStore = cookies();
+
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        get(name: string) {
+          return cookieStore.get(name)?.value;
+        },
+      },
+    }
+  );
   const { data } = await supabase.from("Questions").select(`
     id,
     question,
@@ -37,7 +51,7 @@ export default async function Home() {
         <h1>Question:</h1>
         <Carousel className="-ml-1">
           <CarouselContent className="w-[500px]">
-            {data?.map((q) => (
+            {[...(data ?? [])].reverse()?.map((q) => (
               <CarouselItem key={q.id}>
                 <Card>
                   <CardContent className="flex aspect-square items-center justify-center p-6">
